@@ -307,12 +307,21 @@
             })
           }
         }
+        
+        text = name === 'Aravind' ? `${hhmm}: ${text}` : `[[${name}]] at ${hhmm}: ${text}`;
 
+        const lines = text.split('\n').filter(Boolean);
         createNestedBlock(parent, {
           uid,
           order: maxOrder + i,
-          string: name === 'Aravind' ? `${hhmm}: ${text}` : `[[${name}]] at ${hhmm}: ${text}`
+          string: lines[0]
         })
+        for (let i=1; i<lines.length ; i++) {
+          createNestedBlock(uid, {
+            order: maxOrder + i,
+            string: lines[i]
+          })
+        }
 
         async function insertFile(fileid, generate) {
           let photo = await GET(
